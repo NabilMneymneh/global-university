@@ -1,0 +1,32 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to get user role from Firestore
+    function getUserRole() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    // Helper function to check if user is admin or editor
+    function isAdminOrEditor() {
+      return isAuthenticated() && getUserRole() in ['admin', 'editor'];
+    }
+    
+    // Media files - readable by all, writable by admin/editor
+    match /media/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdminOrEditor();
+    }
+    
+    // User uploads - users can only write to their own folder
+    match /users/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+  }
+}
+

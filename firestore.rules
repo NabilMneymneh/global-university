@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to get user role
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+    
+    // Helper function to check if user is admin or editor
+    function isAdminOrEditor() {
+      return isAuthenticated() && getUserRole() in ['admin', 'editor'];
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update, delete: if isAdmin();
+    }
+    
+    // Posts collection
+    match /posts/{postId} {
+      allow read: if resource.data.published == true || isAdminOrEditor();
+      allow create: if isAdminOrEditor();
+      allow update, delete: if isAdminOrEditor();
+    }
+    
+    // Categories collection
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdminOrEditor();
+    }
+    
+    // Tags collection
+    match /tags/{tagId} {
+      allow read: if true;
+      allow write: if isAdminOrEditor();
+    }
+    
+    // Programs collection
+    match /programs/{programId} {
+      allow read: if true;
+      allow write: if isAdminOrEditor();
+    }
+    
+    // Faculties collection
+    match /faculties/{facultyId} {
+      allow read: if true;
+      allow write: if isAdminOrEditor();
+    }
+  }
+}
+
