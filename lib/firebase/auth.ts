@@ -9,6 +9,21 @@ import { auth } from "./config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./config";
 
+// Helper to check if auth is available
+function getAuthInstance() {
+  if (!auth) {
+    throw new Error("Firebase Auth is not initialized. Make sure you're running this in the browser.");
+  }
+  return auth;
+}
+
+function getDbInstance() {
+  if (!db) {
+    throw new Error("Firebase Firestore is not initialized. Make sure you're running this in the browser.");
+  }
+  return db;
+}
+
 export type UserRole = "admin" | "editor" | "viewer";
 
 export interface UserData {
@@ -22,16 +37,20 @@ export interface UserData {
 
 export async function signIn(email: string, password: string) {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const authInstance = getAuthInstance();
+    const userCredential = await signInWithEmailAndPassword(authInstance, email, password);
     return userCredential.user;
   } catch (error: any) {
-    throw new Error(error.message);
+    const errorMessage = error?.message || "Failed to sign in";
+    throw new Error(errorMessage);
   }
 }
 
 export async function signUp(email: string, password: string, role: UserRole = "viewer") {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const authInstance = getAuthInstance();
+    const dbInstance = getDbInstance();
+    const userCredential = await createUserWithEmailAndPassword(authInstance, email, password);
     const user = userCredential.user;
 
     // Create user document in Firestore
@@ -42,27 +61,39 @@ export async function signUp(email: string, password: string, role: UserRole = "
       updatedAt: new Date(),
     };
 
-    await setDoc(doc(db, "users", user.uid), userData);
+    await setDoc(doc(dbInstance, "users", user.uid), userData);
 
     return user;
   } catch (error: any) {
-    throw new Error(error.message);
+    const errorMessage = error?.message || "Failed to create user";
+    throw new Error(errorMessage);
   }
 }
 
 export async function logOut() {
   try {
-    await signOut(auth);
+    const authInstance = getAuthInstance();
+    await signOut(authInstance);
   } catch (error: any) {
-    throw new Error(error.message);
+    const errorMessage = error?.message || "Failed to sign out";
+    throw new Error(errorMessage);
   }
 }
 
 export async function getUserData(uid: string): Promise<UserData | null> {
   try {
-    const userDoc = await getDoc(doc(db, "users", uid));
+    const dbInstance = getDbInstance();
+    const userDoc = await getDoc(doc(dbInstance, "users", uid));
     if (userDoc.exists()) {
-      return { uid, ...userDoc.data() } as UserData;
+      const data = userDoc.data();
+      return { 
+        uid, 
+        email: data.email || "",
+        role: data.role || "viewer",
+        displayName: data.displayName,
+        createdAt: data.createdAt?.toDate() || new Date(),
+        updatedAt: data.updatedAt?.toDate() || new Date(),
+      } as UserData;
     }
     return null;
   } catch (error) {
@@ -72,11 +103,41 @@ export async function getUserData(uid: string): Promise<UserData | null> {
 }
 
 export function getCurrentUser(): Promise<User | null> {
-  return new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      unsubscribe();
-      resolve(user);
-    });
+  return new Promise((resolve, reject) => {
+    try {
+      const authInstance = getAuthInstance();
+
+      // Check current user immediately if available
+      const currentUser = authInstance.currentUser;
+      if (currentUser) {
+        resolve(currentUser);
+        return;
+      }
+
+      // Set a timeout to prevent hanging
+      const timeout = setTimeout(() => {
+        unsubscribe();
+        resolve(null); // Return null instead of rejecting for timeout
+      }, 3000);
+
+      const unsubscribe = onAuthStateChanged(
+        authInstance,
+        (user) => {
+          clearTimeout(timeout);
+          unsubscribe();
+          resolve(user);
+        },
+        (error) => {
+          clearTimeout(timeout);
+          unsubscribe();
+          console.error("Auth state error:", error);
+          resolve(null); // Return null instead of rejecting
+        }
+      );
+    } catch (error: any) {
+      console.error("Error getting current user:", error);
+      resolve(null); // Return null instead of rejecting
+    }
   });
 }
 

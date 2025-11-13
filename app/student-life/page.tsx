@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Container from "@/components/layout/Container";
+import PageHero from "@/components/layout/PageHero";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, BookOpen, Music, Camera, Heart } from "lucide-react";
 
@@ -46,20 +48,20 @@ export default function StudentLifePage() {
     <>
       <Header />
       <main>
-        <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold sm:text-5xl">Student Life</h1>
-            <p className="mt-4 text-lg text-gray-100">
-              A vibrant campus community awaits you
-            </p>
-          </div>
-        </section>
+        <PageHero
+          title="Student Life"
+          description="A vibrant campus community awaits you"
+          eyebrow="Campus Life"
+        />
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-4">Campus Activities</h2>
-              <p className="text-lg text-muted-foreground">
+          <Container>
+            <div className="mb-12 space-y-4 text-center md:text-left">
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
+                Activities
+              </p>
+              <h2 className="text-3xl font-bold">Campus Activities</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl">
                 At Global University, student life extends beyond the classroom. Join clubs, 
                 participate in events, and build lasting friendships.
               </p>
@@ -69,10 +71,13 @@ export default function StudentLifePage() {
               {clubs.map((club, index) => {
                 const Icon = club.icon;
                 return (
-                  <Card key={index} className="hover:shadow-lg transition-shadow">
+                  <Card
+                    key={index}
+                    className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl"
+                  >
                     <CardHeader>
-                      <div className="mb-4">
-                        <Icon className="h-8 w-8 text-primary" />
+                      <div className="mb-4 inline-flex rounded-full bg-primary/10 p-3 text-primary">
+                        <Icon className="h-8 w-8" />
                       </div>
                       <CardTitle>{club.name}</CardTitle>
                       <CardDescription>{club.description}</CardDescription>
@@ -83,13 +88,13 @@ export default function StudentLifePage() {
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <Card>
+              <Card className="rounded-2xl border border-border bg-background shadow-sm">
                 <CardHeader>
                   <CardTitle>Student Services</CardTitle>
                   <CardDescription>Support for your success</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 text-sm">
+                  <ul className="space-y-2 text-sm text-foreground/80">
                     <li>• Academic advising</li>
                     <li>• Career counseling</li>
                     <li>• Health services</li>
@@ -99,13 +104,13 @@ export default function StudentLifePage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="rounded-2xl border border-border bg-background shadow-sm">
                 <CardHeader>
                   <CardTitle>Campus Facilities</CardTitle>
                   <CardDescription>Modern amenities for students</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 text-sm">
+                  <ul className="space-y-2 text-sm text-foreground/80">
                     <li>• Library and study spaces</li>
                     <li>• Sports facilities</li>
                     <li>• Dining services</li>
@@ -115,7 +120,7 @@ export default function StudentLifePage() {
                 </CardContent>
               </Card>
             </div>
-          </div>
+          </Container>
         </section>
       </main>
       <Footer />

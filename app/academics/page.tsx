@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Container from "@/components/layout/Container";
+import PageHero from "@/components/layout/PageHero";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -42,20 +44,20 @@ export default function AcademicsPage() {
     <>
       <Header />
       <main>
-        <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold sm:text-5xl">Academics</h1>
-            <p className="mt-4 text-lg text-gray-100">
-              Excellence in education, innovation in research
-            </p>
-          </div>
-        </section>
+        <PageHero
+          title="Academics"
+          description="Excellence in education, innovation in research"
+          eyebrow="Academic Experience"
+        />
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-4">Our Faculties</h2>
-              <p className="text-lg text-muted-foreground">
+          <Container>
+            <div className="mb-12 space-y-4 text-center md:text-left">
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
+                Faculties
+              </p>
+              <h2 className="text-3xl font-bold">Our Faculties</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl">
                 Global University offers a diverse range of academic programs across multiple faculties, 
                 each committed to excellence in teaching and research.
               </p>
@@ -63,13 +65,18 @@ export default function AcademicsPage() {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {faculties.map((faculty, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
+                <Card
+                  key={index}
+                  className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl"
+                >
                   <CardHeader>
                     <CardTitle className="text-2xl">{faculty.name}</CardTitle>
-                    <CardDescription>{faculty.description}</CardDescription>
+                    <CardDescription className="text-base leading-relaxed">
+                      {faculty.description}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button asChild variant="outline">
+                    <Button asChild variant="outline" className="w-full">
                       <Link href={faculty.href}>Explore Faculty</Link>
                     </Button>
                   </CardContent>
@@ -78,7 +85,7 @@ export default function AcademicsPage() {
             </div>
 
             <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-              <Card>
+              <Card className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
                 <CardHeader>
                   <CardTitle>Academic Calendar</CardTitle>
                   <CardDescription>Important dates and deadlines</CardDescription>
@@ -90,7 +97,7 @@ export default function AcademicsPage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
                 <CardHeader>
                   <CardTitle>Academic Catalogue</CardTitle>
                   <CardDescription>Comprehensive program guide</CardDescription>
@@ -102,7 +109,7 @@ export default function AcademicsPage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
                 <CardHeader>
                   <CardTitle>Program Search</CardTitle>
                   <CardDescription>Find the right program for you</CardDescription>
@@ -114,7 +121,7 @@ export default function AcademicsPage() {
                 </CardContent>
               </Card>
             </div>
-          </div>
+          </Container>
         </section>
       </main>
       <Footer />

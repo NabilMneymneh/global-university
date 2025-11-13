@@ -2,6 +2,8 @@
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Container from "@/components/layout/Container";
+import PageHero from "@/components/layout/PageHero";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -33,17 +35,14 @@ export default function ProgramSearchPage() {
     <>
       <Header />
       <main>
-        <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold sm:text-5xl">Program Search Tool</h1>
-            <p className="mt-4 text-lg text-gray-100">
-              Find the perfect program for you
-            </p>
-          </div>
-        </section>
+        <PageHero
+          title="Program Search Tool"
+          description="Find the perfect program for you"
+          eyebrow="Explore Programs"
+        />
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Container>
             <div className="mb-8 space-y-4">
               <Input
                 type="text"
@@ -52,7 +51,7 @@ export default function ProgramSearchPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-md"
               />
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button
                   variant={selectedLevel === "all" ? "default" : "outline"}
                   onClick={() => setSelectedLevel("all")}
@@ -76,7 +75,10 @@ export default function ProgramSearchPage() {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredPrograms.map((program, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
+                <Card
+                  key={index}
+                  className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl"
+                >
                   <CardHeader>
                     <CardTitle className="text-lg">{program.name}</CardTitle>
                     <CardDescription>
@@ -93,11 +95,11 @@ export default function ProgramSearchPage() {
             </div>
 
             {filteredPrograms.length === 0 && (
-              <div className="text-center py-12">
+              <div className="rounded-2xl border border-dashed border-border bg-muted/40 py-12 text-center">
                 <p className="text-muted-foreground">No programs found matching your criteria.</p>
               </div>
             )}
-          </div>
+          </Container>
         </section>
       </main>
       <Footer />

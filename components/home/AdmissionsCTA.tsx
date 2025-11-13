@@ -1,34 +1,43 @@
+import Container from "@/components/layout/Container";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export default function AdmissionsCTA() {
   return (
-    <section className="py-16 bg-primary text-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-lg bg-primary-dark p-8 md:p-12">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl font-bold sm:text-4xl mb-4">
+    <section className="cta-section bg-muted/30">
+      <Container>
+        <div className="cta-card overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary-dark to-primary text-white p-8 shadow-xl sm:p-12 lg:p-14">
+          <div className="max-w-3xl space-y-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
+              Start Today
+            </p>
+            <h2 className="text-3xl font-bold sm:text-4xl">
               Ready to Begin Your Journey?
             </h2>
-            <p className="text-lg text-gray-100 mb-8">
-              Join Global University and become part of a vibrant community of learners, researchers, and innovators. 
+            <p className="text-lg text-white/90">
+              Join Global University and become part of a vibrant community of learners, researchers, and innovators.
               Start your application today and take the first step toward your future.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
+              <Button asChild size="lg" className="cta-button px-8 py-6 text-lg">
                 <Link href="/admissions">
                   Apply Now
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="cta-button-secondary px-8 py-6 text-lg"
+              >
                 <Link href="/admissions#requirements">View Requirements</Link>
               </Button>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/academics",
     "/admissions",
+    "/admissions/apply",
     "/student-life",
     "/programs-&-degrees",
     "/program-search-tool",
@@ -24,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/strategic-plan",
     "/facts-&-figures",
     "/campuses-&-maps",
+    "/alumni",
   ];
 
   return routes.map((route) => ({

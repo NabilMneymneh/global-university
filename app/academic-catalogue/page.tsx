@@ -17,7 +17,7 @@ export default function AcademicCataloguePage() {
       <Header />
       <main>
         <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container-shell">
             <h1 className="text-4xl font-bold sm:text-5xl">Academic Catalogue</h1>
             <p className="mt-4 text-lg text-gray-100">
               Comprehensive program guide
@@ -26,7 +26,7 @@ export default function AcademicCataloguePage() {
         </section>
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container-shell">
             <div className="prose prose-lg max-w-none">
               <p>
                 The Academic Catalogue provides detailed information about all programs, courses, 
@@ -34,7 +34,7 @@ export default function AcademicCataloguePage() {
                 and serves as the official guide for students and faculty.
               </p>
               <p>
-                For the most current version of the catalogue, please contact the Registrar's Office 
+                For the most current version of the catalogue, please contact the Registrar&apos;s Office 
                 or download the PDF version from the student portal.
               </p>
             </div>

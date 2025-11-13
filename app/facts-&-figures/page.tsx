@@ -25,7 +25,7 @@ export default function FactsFiguresPage() {
       <Header />
       <main>
         <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container-shell">
             <h1 className="text-4xl font-bold sm:text-5xl">Facts & Figures</h1>
             <p className="mt-4 text-lg text-gray-100">
               By the numbers
@@ -34,7 +34,7 @@ export default function FactsFiguresPage() {
         </section>
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container-shell">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 mb-12">
               {stats.map((stat, index) => (
                 <Card key={index} className="text-center">

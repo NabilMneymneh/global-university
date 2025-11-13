@@ -18,7 +18,7 @@ export default function SocialDevelopmentPage() {
       <Header />
       <main>
         <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container-shell">
             <h1 className="text-4xl font-bold sm:text-5xl">Social Development & Sustainability</h1>
             <p className="mt-4 text-lg text-gray-100">
               Making a positive impact
@@ -27,7 +27,7 @@ export default function SocialDevelopmentPage() {
         </section>
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container-shell">
             <div className="prose prose-lg max-w-none mb-12">
               <p>
                 Global University is committed to social development and environmental sustainability. 

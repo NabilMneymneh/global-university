@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getPosts, Post } from "@/lib/firebase/posts";
 import { getAllUsers } from "@/lib/firebase/users";
 import { FileText, Users, Eye, TrendingUp } from "lucide-react";
+import { LoadingSpinner, LoadingSkeleton } from "@/components/ui/loading-spinner";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -42,7 +43,25 @@ export default function AdminDashboard() {
   }, []);
 
   if (loading) {
-    return <p>Loading dashboard...</p>;
+    return (
+      <div>
+        <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
+            <Card key={i}>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <LoadingSkeleton className="h-4 w-24" />
+                <LoadingSkeleton className="h-4 w-4 rounded" />
+              </CardHeader>
+              <CardContent>
+                <LoadingSkeleton className="h-8 w-16 mb-2" />
+                <LoadingSkeleton className="h-3 w-32" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   const statCards = [

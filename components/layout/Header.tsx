@@ -1,13 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navigation = [
     { name: "About", href: "/about" },
@@ -25,25 +37,41 @@ export default function Header() {
   ];
 
   const quickLinks = [
-    { name: "Portal", href: "#" },
-    { name: "Library", href: "#" },
-    { name: "Webmail", href: "#" },
-    { name: "Job Board", href: "#" },
-    { name: "SIS", href: "#" },
+    { name: "Portal", href: "https://www.gu.edu.lb/portal" },
+    { name: "Library", href: "https://www.gu.edu.lb/library" },
+    { name: "Webmail", href: "https://mail.gu.edu.lb" },
+    { name: "Job Board", href: "https://www.gu.edu.lb/careers" },
+    { name: "SIS", href: "https://sis.gu.edu.lb" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center">
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-bold text-primary">GU</span>
-          </Link>
-        </div>
+    <header
+      className={cn(
+        "site-header sticky top-0 z-50 w-full border-b border-border bg-background/90 backdrop-blur transition-all duration-300",
+        isScrolled && "scrolled shadow-md"
+      )}
+    >
+      <div
+        className={cn(
+          "header-shell transition-all duration-300",
+          isScrolled ? "py-3" : "py-4"
+        )}
+      >
+        <Link href="/" className="logo-link logo-wrapper flex-shrink-0" aria-label="Global University home">
+          <Image
+            src="/logo.png"
+            alt="Global University"
+            width={160}
+            height={48}
+            className={cn("logo-image", isScrolled && "logo-image-scrolled")}
+            priority
+          />
+          <span className="sr-only">Global University</span>
+        </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between lg:gap-6">
-          <div className="flex items-center gap-6">
+        <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between lg:gap-12 lg:ml-auto">
+          <div className="nav-links flex items-center gap-8">
             {navigation.map((item) => (
               <div key={item.name} className="relative group">
                 {item.children ? (
@@ -88,17 +116,19 @@ export default function Header() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
-            <Button variant="outline" size="sm">
-              Apply
+          <div className="nav-actions flex items-center gap-3 border-l border-border/60 pl-6">
+            <Button variant="outline" size="sm" className="px-5 secondary-button" asChild>
+              <Link href="/admissions/apply">Apply</Link>
             </Button>
-            <Button size="sm">Info</Button>
+            <Button size="sm" className="px-5" asChild>
+              <Link href="/admissions">Info</Link>
+            </Button>
           </div>
         </div>
 
         {/* Mobile menu button */}
         <button
-          className="lg:hidden"
+          className="text-foreground lg:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -108,12 +138,12 @@ export default function Header() {
             <Menu className="h-6 w-6" />
           )}
         </button>
-      </nav>
+      </div>
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-border bg-background">
-          <div className="px-4 py-4 space-y-4">
+        <div className="border-t border-border bg-background/95 shadow-lg backdrop-blur lg:hidden">
+          <div className="container-shell space-y-4 py-4">
             {navigation.map((item) => (
               <div key={item.name}>
                 {item.children ? (
@@ -159,7 +189,7 @@ export default function Header() {
                 )}
               </div>
             ))}
-            <div className="pt-4 border-t border-border">
+            <div className="border-t border-border pt-4">
               <div className="space-y-2">
                 {quickLinks.map((link) => (
                   <Link
@@ -174,11 +204,11 @@ export default function Header() {
               </div>
             </div>
             <div className="pt-4 border-t border-border flex gap-2">
-              <Button variant="outline" size="sm" className="flex-1">
-                Apply
+              <Button variant="outline" size="sm" className="flex-1" asChild>
+                <Link href="/admissions/apply">Apply</Link>
               </Button>
-              <Button size="sm" className="flex-1">
-                Info
+              <Button size="sm" className="flex-1" asChild>
+                <Link href="/admissions">Info</Link>
               </Button>
             </div>
           </div>

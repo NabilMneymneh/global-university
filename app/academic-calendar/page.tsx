@@ -18,7 +18,7 @@ export default function AcademicCalendarPage() {
       <Header />
       <main>
         <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container-shell">
             <h1 className="text-4xl font-bold sm:text-5xl">Academic Calendar</h1>
             <p className="mt-4 text-lg text-gray-100">
               Important dates and deadlines
@@ -27,7 +27,7 @@ export default function AcademicCalendarPage() {
         </section>
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="container-shell">
             <Card>
               <CardHeader>
                 <CardTitle>Fall Semester 2024</CardTitle>

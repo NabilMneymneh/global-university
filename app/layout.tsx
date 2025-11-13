@@ -1,19 +1,15 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins",
-  display: "swap",
-});
+import { ToastProvider } from "@/components/providers/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Global University | Leading Higher Education in Lebanon",
   description: "Global University is a premier institution of higher education in Lebanon, offering diverse academic programs, world-class facilities, and a commitment to excellence.",
   keywords: ["Global University", "Lebanon", "Higher Education", "University", "Academic Programs"],
   authors: [{ name: "Global University" }],
+  icons: {
+    icon: "/favicon.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -31,11 +27,12 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -58,13 +55,14 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={poppins.variable}>
-      <body className={poppins.className}>
+    <html lang="en">
+      <body>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         {children}
+        <ToastProvider />
       </body>
     </html>
   );

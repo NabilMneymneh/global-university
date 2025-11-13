@@ -20,9 +20,335 @@
   * {
     @apply border-border;
   }
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply flex min-h-screen flex-col bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #F47920;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #FCB64D;
+  }
+
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  main {
+    @apply flex-1;
+  }
+}
+
+.hero-primary-btn {
+  @apply border-2 border-white bg-white text-primary font-semibold shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-white hover:border-white;
+}
+
+.hero-secondary-btn {
+  @apply border-2 border-white bg-transparent text-white font-semibold backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-primary hover:border-white;
+}
+
+.cta-button {
+  @apply border-2 border-white bg-white text-primary font-semibold transition-all duration-300 hover:-translate-y-1 hover:bg-transparent hover:text-white hover:border-white;
+}
+
+.cta-button-secondary {
+  @apply border-2 border-white bg-transparent text-white font-semibold transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-primary;
+}
+
+.feature-card {
+  @apply transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl;
+}
+
+.testimonial-card {
+  @apply bg-white/95 border border-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl;
+}
+
+.secondary-button,
+.outline-button {
+  @apply border-2 border-current bg-transparent text-current transition-all duration-300;
+}
+
+.secondary-button:hover,
+.outline-button:hover {
+  @apply bg-current text-white;
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.logo-image {
+  max-width: 180px;
+  height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transition: opacity 0.3s ease;
+}
+
+.header-container {
+  @apply flex items-center justify-between gap-12;
+}
+
+/* UChicago-style container system */
+.container-shell,
+.section-container,
+[class*="container"]:not([class*="header"]) {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 112px; /* UChicago desktop padding */
+  padding-right: 112px; /* UChicago desktop padding */
+  width: 100%;
+}
+
+/* Header container matching main layout */
+.header-shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 112px; /* Match body container */
+  padding-right: 112px; /* Match body container */
+  width: 100%;
+}
+
+/* Full-width sections (hero, CTA) maintain edge-to-edge */
+.hero-section,
+.cta-section,
+.full-width-section {
+  width: 100%;
+  padding: 0; /* No container padding */
+}
+
+/* But content inside gets container treatment */
+.hero-section > .container-shell,
+.cta-section > .container-shell {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 112px;
+  padding-right: 112px;
+}
+
+/* Content sections with background */
+.section {
+  width: 100%;
+  padding: 80px 0;
+}
+
+.section > .container-shell {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 112px;
+  padding-right: 112px;
+}
+
+/* Responsive breakpoints matching UChicago */
+@media (max-width: 1440px) {
+  .container-shell,
+  .header-shell,
+  .section > .container-shell,
+  .hero-section > .container-shell,
+  .cta-section > .container-shell {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container-shell,
+  .header-shell,
+  .section > .container-shell,
+  .hero-section > .container-shell,
+  .cta-section > .container-shell {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container-shell,
+  .header-shell,
+  .section > .container-shell,
+  .hero-section > .container-shell,
+  .cta-section > .container-shell {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .header-shell {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-shell,
+  .header-shell,
+  .section > .container-shell,
+  .hero-section > .container-shell,
+  .cta-section > .container-shell {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .header-shell {
+    gap: 16px;
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-shell,
+  .header-shell,
+  .section > .container-shell,
+  .hero-section > .container-shell,
+  .cta-section > .container-shell {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.logo-wrapper {
+  @apply flex items-center gap-3;
+}
+
+.nav-links {
+  @apply flex items-center gap-8;
+}
+
+.nav-actions {
+  @apply ml-6 flex items-center gap-3 border-l border-border/60 pl-6;
+}
+
+.hero-cta .hero-secondary-btn,
+.cta-card .cta-button-secondary {
+  @apply font-semibold;
+}
+
+.logo-link:hover .logo-image {
+  opacity: 0.85;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    max-width: 140px;
+  }
+
+  .header-container {
+    @apply gap-4;
+  }
+
+  .nav-links {
+    @apply gap-4;
+  }
+
+  .nav-actions {
+    @apply ml-3 gap-2 border-l border-border/40 pl-3;
+  }
+}
+
+.site-header {
+  @apply bg-background/90 backdrop-blur transition-all duration-300;
+}
+
+.site-header.scrolled {
+  @apply shadow-md;
+}
+
+.logo-image-scrolled {
+  height: 40px;
+  transition: height 0.3s ease;
+}
+
+.container,
+.section,
+[class*="container"] {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+button,
+.button,
+a.button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover,
+.button:hover,
+a.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card:hover,
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+button:focus-visible,
+a:focus-visible,
+.button:focus-visible {
+  outline: 3px solid #F47920;
+  outline-offset: 3px;
+}
+
+@keyframes slide-in-from-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-in {
+  animation: slide-in-from-right 0.3s ease-out;
 }
 

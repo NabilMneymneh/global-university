@@ -6,6 +6,8 @@ import { signIn } from "@/lib/firebase/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { toast } from "@/components/ui/toast";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -20,10 +22,25 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      await signIn(email, password);
+      const user = await signIn(email, password);
+      
+      // Verify user has admin or editor role
+      const { getUserData } = await import("@/lib/firebase/auth");
+      const userData = await getUserData(user.uid);
+      
+      if (!userData || (userData.role !== "admin" && userData.role !== "editor")) {
+        const { logOut } = await import("@/lib/firebase/auth");
+        await logOut();
+        throw new Error("You don't have permission to access the admin portal.");
+      }
+
+      toast("Successfully signed in!", "success");
       router.push("/admin");
+      router.refresh(); // Force refresh to reload layout
     } catch (err: any) {
-      setError(err.message || "Failed to sign in");
+      const errorMessage = err?.message || "Failed to sign in. Please check your credentials.";
+      setError(errorMessage);
+      toast(errorMessage, "error");
     } finally {
       setLoading(false);
     }
@@ -70,7 +87,14 @@ export default function AdminLoginPage() {
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? (
+                <>
+                  <LoadingSpinner size="sm" className="mr-2" />
+                  Signing in...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
         </CardContent>

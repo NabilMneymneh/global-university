@@ -11,9 +11,17 @@ import {
 import { db } from "./config";
 import { UserData, UserRole } from "./auth";
 
+function getDbInstance() {
+  if (!db) {
+    throw new Error("Firebase Firestore is not initialized. Make sure you're running this in the browser.");
+  }
+  return db;
+}
+
 export async function getAllUsers(): Promise<UserData[]> {
   try {
-    const querySnapshot = await getDocs(collection(db, "users"));
+    const dbInstance = getDbInstance();
+    const querySnapshot = await getDocs(collection(dbInstance, "users"));
     const users: UserData[] = [];
 
     querySnapshot.forEach((doc) => {
@@ -35,7 +43,8 @@ export async function getAllUsers(): Promise<UserData[]> {
 
 export async function updateUserRole(uid: string, role: UserRole): Promise<void> {
   try {
-    const userRef = doc(db, "users", uid);
+    const dbInstance = getDbInstance();
+    const userRef = doc(dbInstance, "users", uid);
     await updateDoc(userRef, {
       role,
       updatedAt: new Date(),
@@ -48,7 +57,8 @@ export async function updateUserRole(uid: string, role: UserRole): Promise<void>
 
 export async function deleteUser(uid: string): Promise<void> {
   try {
-    await deleteDoc(doc(db, "users", uid));
+    const dbInstance = getDbInstance();
+    await deleteDoc(doc(dbInstance, "users", uid));
   } catch (error) {
     console.error("Error deleting user:", error);
     throw error;

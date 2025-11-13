@@ -17,27 +17,67 @@ export default function AdminLayout({
   const [user, setUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+    let mounted = true;
+
     async function checkAuth() {
-      const currentUser = await getCurrentUser();
-      if (!currentUser) {
-        router.push("/admin/login");
-        return;
-      }
+      try {
+        // Check if we're in the browser
+        if (typeof window === "undefined") {
+          return;
+        }
 
-      const data = await getUserData(currentUser.uid);
-      if (!data || (data.role !== "admin" && data.role !== "editor")) {
-        router.push("/");
-        return;
-      }
+        const currentUser = await getCurrentUser();
+        
+        if (!mounted) return;
 
-      setUser(currentUser);
-      setUserData(data);
-      setLoading(false);
+        if (!currentUser) {
+          setLoading(false);
+          router.push("/admin/login");
+          return;
+        }
+
+        const data = await getUserData(currentUser.uid);
+        
+        if (!mounted) return;
+
+        if (!data || (data.role !== "admin" && data.role !== "editor")) {
+          setLoading(false);
+          setError("You don't have permission to access the admin portal.");
+          setTimeout(() => {
+            router.push("/");
+          }, 2000);
+          return;
+        }
+
+        setUser(currentUser);
+        setUserData(data);
+        setLoading(false);
+      } catch (err: any) {
+        console.error("Error verifying admin access:", err);
+        if (!mounted) return;
+        
+        const errorMessage = err?.message || "Unknown error";
+        setError(
+          `We couldn't verify your admin session: ${errorMessage}. Please try logging in again.`
+        );
+        setLoading(false);
+        
+        // Redirect to login after showing error
+        setTimeout(() => {
+          router.push("/admin/login");
+        }, 3000);
+      }
     }
+
     checkAuth();
+
+    return () => {
+      mounted = false;
+    };
   }, [router]);
 
   const handleLogout = async () => {
@@ -47,8 +87,26 @@ export default function AdminLayout({
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p>Loading...</p>
+      <div className="flex min-h-screen items-center justify-center bg-muted/20">
+        <div className="text-center space-y-4">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-muted-foreground">Loading admin portal...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-muted/20 px-6 text-center">
+        <h1 className="text-2xl font-semibold text-foreground">Admin Portal Error</h1>
+        <p className="max-w-xl text-muted-foreground">{error}</p>
+        <div className="flex gap-3">
+          <Button variant="outline" onClick={() => router.refresh()}>
+            Retry
+          </Button>
+          <Button onClick={() => router.push("/admin/login")}>Go to Login</Button>
+        </div>
       </div>
     );
   }
@@ -67,7 +125,7 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-background">
       <nav className="border-b border-border bg-background">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="container-shell">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center gap-8">
               <Link href="/admin" className="text-xl font-bold text-primary">
@@ -102,7 +160,7 @@ export default function AdminLayout({
         </div>
       </nav>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="container-shell py-8">
         {children}
       </main>
     </div>

@@ -1,3 +1,4 @@
+import Container from "@/components/layout/Container";
 import { GraduationCap, Users, Award, Globe } from "lucide-react";
 
 const values = [
@@ -26,12 +27,15 @@ const values = [
 export default function ValuePropositions() {
   return (
     <section className="py-16 bg-background">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+      <Container>
+        <div className="text-center mb-12 space-y-4">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
+            Why Choose Global
+          </p>
           <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
             Why Choose Global University?
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Discover what makes us a leading institution of higher education
           </p>
         </div>
@@ -42,22 +46,22 @@ export default function ValuePropositions() {
             return (
               <div
                 key={index}
-                className="text-center p-6 rounded-lg border border-border hover:shadow-lg transition-shadow"
+                className="feature-card group rounded-2xl border border-border bg-background p-8 text-center shadow-sm"
               >
-                <div className="flex justify-center mb-4">
-                  <div className="rounded-full bg-primary/10 p-3">
-                    <Icon className="h-8 w-8 text-primary" />
+                <div className="mb-6 flex justify-center">
+                  <div className="rounded-full bg-gradient-to-br from-primary to-primary-dark p-4 text-white transition-transform group-hover:scale-110">
+                    <Icon className="h-8 w-8" />
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">
+                <h3 className="mb-3 text-xl font-semibold text-foreground">
                   {value.title}
                 </h3>
-                <p className="text-muted-foreground">{value.description}</p>
+                <p className="text-muted-foreground leading-relaxed">{value.description}</p>
               </div>
             );
           })}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

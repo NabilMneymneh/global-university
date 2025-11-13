@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllUsers, updateUserRole, deleteUser, UserData, UserRole } from "@/lib/firebase/users";
+import { getAllUsers, updateUserRole, deleteUser } from "@/lib/firebase/users";
+import { UserData, UserRole } from "@/lib/firebase/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { signUp } from "@/lib/firebase/auth";
+import { LoadingSpinner, LoadingSkeleton } from "@/components/ui/loading-spinner";
+import { toast } from "@/components/ui/toast";
 
 export default function UsersPage() {
   const [users, setUsers] = useState<UserData[]>([]);
@@ -31,38 +34,65 @@ export default function UsersPage() {
 
   async function handleAddUser(e: React.FormEvent) {
     e.preventDefault();
+    if (!newUserEmail || !newUserPassword) {
+      toast("Please fill in all fields", "warning");
+      return;
+    }
+    if (newUserPassword.length < 6) {
+      toast("Password must be at least 6 characters", "warning");
+      return;
+    }
     try {
       await signUp(newUserEmail, newUserPassword, newUserRole);
+      toast("User created successfully!", "success");
       setNewUserEmail("");
       setNewUserPassword("");
       setShowAddForm(false);
       fetchUsers();
     } catch (error: any) {
-      alert(error.message);
+      toast(error.message || "Failed to create user", "error");
     }
   }
 
   async function handleUpdateRole(uid: string, role: UserRole) {
     try {
       await updateUserRole(uid, role);
+      toast("User role updated successfully", "success");
       fetchUsers();
     } catch (error: any) {
-      alert(error.message);
+      toast(error.message || "Failed to update role", "error");
     }
   }
 
   async function handleDeleteUser(uid: string) {
-    if (!confirm("Are you sure you want to delete this user?")) return;
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
       await deleteUser(uid);
+      toast("User deleted successfully", "success");
       fetchUsers();
     } catch (error: any) {
-      alert(error.message);
+      toast(error.message || "Failed to delete user", "error");
     }
   }
 
   if (loading) {
-    return <p>Loading users...</p>;
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">User Management</h1>
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Card key={i}>
+              <CardHeader>
+                <LoadingSkeleton className="h-6 w-48 mb-2" />
+                <LoadingSkeleton className="h-4 w-32" />
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (

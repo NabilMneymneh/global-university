@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Container from "@/components/layout/Container";
+import PageHero from "@/components/layout/PageHero";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
@@ -52,19 +54,24 @@ export default function AdmissionsPage() {
     <>
       <Header />
       <main>
-        <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold sm:text-5xl">Admissions</h1>
-            <p className="mt-4 text-lg text-gray-100">
-              Start your journey at Global University
-            </p>
-          </div>
-        </section>
+        <PageHero
+          title="Admissions"
+          description="Start your journey at Global University"
+          eyebrow="Join Global"
+          actions={
+            <Button asChild variant="secondary">
+              <Link href="/admissions/apply">Apply Now</Link>
+            </Button>
+          }
+        />
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Application Process</h2>
+          <Container>
+            <div className="mb-12 space-y-4 text-center">
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
+                Application Process
+              </p>
+              <h2 className="text-3xl font-bold">Application Process</h2>
               <p className="text-lg text-muted-foreground">
                 Follow these simple steps to apply to Global University
               </p>
@@ -72,7 +79,10 @@ export default function AdmissionsPage() {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 mb-16">
               {steps.map((step) => (
-                <Card key={step.step} className="text-center">
+                <Card
+                  key={step.step}
+                  className="text-center rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl"
+                >
                   <CardHeader>
                     <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
                       {step.step}
@@ -85,16 +95,16 @@ export default function AdmissionsPage() {
             </div>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-              <Card>
+              <Card className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
                 <CardHeader>
                   <CardTitle>Admission Requirements</CardTitle>
                   <CardDescription>What you need to apply</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-3">
+                  <ul className="space-y-3 text-foreground/80">
                     {requirements.map((req, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                        <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
                         <span>{req}</span>
                       </li>
                     ))}
@@ -102,13 +112,13 @@ export default function AdmissionsPage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
                 <CardHeader>
                   <CardTitle>Financial Aid</CardTitle>
                   <CardDescription>Scholarships and financial assistance</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <p className="mb-4">
+                <CardContent className="space-y-4">
+                  <p className="text-foreground/80">
                     Global University offers various financial aid options including scholarships, 
                     grants, and student loans to help make your education affordable.
                   </p>
@@ -120,11 +130,15 @@ export default function AdmissionsPage() {
             </div>
 
             <div className="mt-12 text-center">
-              <Button asChild size="lg">
+              <Button
+                asChild
+                size="lg"
+                className="bg-primary px-8 py-6 text-lg text-white shadow-lg transition hover:bg-primary/90 hover:shadow-xl"
+              >
                 <Link href="/admissions/apply">Start Your Application</Link>
               </Button>
             </div>
-          </div>
+          </Container>
         </section>
       </main>
       <Footer />

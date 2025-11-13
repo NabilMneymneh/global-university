@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LoadingSpinner, LoadingSkeleton } from "@/components/ui/loading-spinner";
+import { toast } from "@/components/ui/toast";
 
 export default function EditPostPage() {
   const params = useParams();
@@ -26,12 +28,6 @@ export default function EditPostPage() {
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    if (!isNew) {
-      fetchPost();
-    }
-  }, [postId, isNew]);
-
   async function fetchPost() {
     try {
       const fetchedPost = await getPost(postId);
@@ -45,12 +41,24 @@ export default function EditPostPage() {
     }
   }
 
+  useEffect(() => {
+    if (!isNew) {
+      fetchPost();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postId, isNew]);
+
   async function handleSave() {
     setSaving(true);
     try {
       const user = await getCurrentUser();
       if (!user) {
-        alert("You must be logged in to save posts");
+        toast("You must be logged in to save posts", "error");
+        return;
+      }
+
+      if (!post.title || !post.content) {
+        toast("Please fill in all required fields", "warning");
         return;
       }
 
@@ -68,16 +76,37 @@ export default function EditPostPage() {
         await updatePost(postId, postData);
       }
 
+      toast(isNew ? "Post created successfully!" : "Post updated successfully!", "success");
       router.push("/admin/posts");
     } catch (error: any) {
-      alert(error.message);
+      toast(error.message || "Failed to save post", "error");
     } finally {
       setSaving(false);
     }
   }
 
   if (loading) {
-    return <p>Loading post...</p>;
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-8">
+          <LoadingSkeleton className="h-8 w-48" />
+        </div>
+        <Card>
+          <CardHeader>
+            <LoadingSkeleton className="h-6 w-32 mb-2" />
+            <LoadingSkeleton className="h-4 w-48" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i}>
+                <LoadingSkeleton className="h-4 w-24 mb-2" />
+                <LoadingSkeleton className="h-10 w-full" />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (
@@ -89,7 +118,14 @@ export default function EditPostPage() {
             Cancel
           </Button>
           <Button onClick={handleSave} disabled={saving}>
-            {saving ? "Saving..." : "Save Post"}
+            {saving ? (
+              <>
+                <LoadingSpinner size="sm" className="mr-2" />
+                Saving...
+              </>
+            ) : (
+              "Save Post"
+            )}
           </Button>
         </div>
       </div>

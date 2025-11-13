@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Container from "@/components/layout/Container";
+import PageHero from "@/components/layout/PageHero";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -54,32 +56,40 @@ export default function ProgramsPage() {
     <>
       <Header />
       <main>
-        <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold sm:text-5xl">Programs & Degrees</h1>
-            <p className="mt-4 text-lg text-gray-100">
-              Discover your path to success
-            </p>
-          </div>
-        </section>
+        <PageHero
+          title="Programs & Degrees"
+          description="Discover your path to success"
+          eyebrow="Academic Pathways"
+          actions={
+            <Button asChild variant="secondary">
+              <Link href="/program-search-tool">Search Programs</Link>
+            </Button>
+          }
+        />
 
         <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-4">Our Academic Programs</h2>
-              <p className="text-lg text-muted-foreground">
+          <Container>
+            <div className="mb-12 space-y-4 text-center md:text-left">
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
+                Academic Programs
+              </p>
+              <h2 className="text-3xl font-bold">Our Academic Programs</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl">
                 Global University offers a wide range of undergraduate and graduate programs 
                 designed to prepare you for success in your chosen field.
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-10">
               {programs.map((category, categoryIndex) => (
-                <div key={categoryIndex}>
-                  <h3 className="text-2xl font-semibold mb-4">{category.category}</h3>
+                <div key={categoryIndex} className="space-y-5">
+                  <h3 className="text-2xl font-semibold text-foreground">{category.category}</h3>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {category.programs.map((program, programIndex) => (
-                      <Card key={programIndex} className="hover:shadow-lg transition-shadow">
+                      <Card
+                        key={programIndex}
+                        className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl"
+                      >
                         <CardHeader>
                           <CardTitle className="text-lg">{program.name}</CardTitle>
                           <CardDescription>{program.level}</CardDescription>
@@ -99,11 +109,11 @@ export default function ProgramsPage() {
             </div>
 
             <div className="mt-12 text-center">
-              <Button asChild size="lg">
+              <Button asChild size="lg" className="px-8">
                 <Link href="/program-search-tool">Search Programs</Link>
               </Button>
             </div>
-          </div>
+          </Container>
         </section>
       </main>
       <Footer />

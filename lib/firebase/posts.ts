@@ -14,6 +14,13 @@ import {
 } from "firebase/firestore";
 import { db } from "./config";
 
+function getDbInstance() {
+  if (!db) {
+    throw new Error("Firebase Firestore is not initialized. Make sure you're running this in the browser.");
+  }
+  return db;
+}
+
 export type PostType = "news" | "event" | "blog";
 
 export interface Post {
@@ -39,7 +46,8 @@ export async function getPosts(
   limitCount?: number
 ): Promise<Post[]> {
   try {
-    let q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    const dbInstance = getDbInstance();
+    let q = query(collection(dbInstance, "posts"), orderBy("createdAt", "desc"));
     
     if (type) {
       q = query(q, where("type", "==", type));
@@ -72,7 +80,8 @@ export async function getPosts(
 
 export async function getPost(id: string): Promise<Post | null> {
   try {
-    const docRef = doc(db, "posts", id);
+    const dbInstance = getDbInstance();
+    const docRef = doc(dbInstance, "posts", id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -101,7 +110,8 @@ export async function createPost(post: Omit<Post, "id" | "createdAt" | "updatedA
       publishedAt: post.published ? Timestamp.now() : null,
     };
 
-    const docRef = await addDoc(collection(db, "posts"), postData);
+    const dbInstance = getDbInstance();
+    const docRef = await addDoc(collection(dbInstance, "posts"), postData);
     return docRef.id;
   } catch (error) {
     console.error("Error creating post:", error);
@@ -111,7 +121,8 @@ export async function createPost(post: Omit<Post, "id" | "createdAt" | "updatedA
 
 export async function updatePost(id: string, post: Partial<Post>): Promise<void> {
   try {
-    const docRef = doc(db, "posts", id);
+    const dbInstance = getDbInstance();
+    const docRef = doc(dbInstance, "posts", id);
     await updateDoc(docRef, {
       ...post,
       updatedAt: Timestamp.now(),
@@ -125,7 +136,8 @@ export async function updatePost(id: string, post: Partial<Post>): Promise<void>
 
 export async function deletePost(id: string): Promise<void> {
   try {
-    await deleteDoc(doc(db, "posts", id));
+    const dbInstance = getDbInstance();
+    await deleteDoc(doc(dbInstance, "posts", id));
   } catch (error) {
     console.error("Error deleting post:", error);
     throw error;

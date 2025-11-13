@@ -5,6 +5,8 @@ import Link from "next/link";
 import { getPosts, Post, deletePost } from "@/lib/firebase/posts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { LoadingSpinner, LoadingSkeleton } from "@/components/ui/loading-spinner";
+import { toast } from "@/components/ui/toast";
 
 export default function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -26,17 +28,34 @@ export default function PostsPage() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this post?")) return;
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
     try {
       await deletePost(id);
+      toast("Post deleted successfully", "success");
       fetchPosts();
     } catch (error: any) {
-      alert(error.message);
+      toast(error.message || "Failed to delete post", "error");
     }
   }
 
   if (loading) {
-    return <p>Loading posts...</p>;
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Blog Management</h1>
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Card key={i}>
+              <CardHeader>
+                <LoadingSkeleton className="h-6 w-64 mb-2" />
+                <LoadingSkeleton className="h-4 w-48" />
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (
