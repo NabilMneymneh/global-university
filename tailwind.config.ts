@@ -10,18 +10,30 @@ const config: Config = {
     extend: {
       colors: {
         background: "#FFFFFF",
-        foreground: "#4C4C4D",
+        foreground: "#0F172A", // Deep navy for better readability
         primary: {
-          DEFAULT: "#F47920",
-          dark: "#FCB64D",
+          DEFAULT: "#F97316", // Vibrant Orange
+          foreground: "#FFFFFF",
+          dark: "#EA580C",
         },
         secondary: {
-          DEFAULT: "#D3D3D3",
-          dark: "#4C4C4D",
+          DEFAULT: "#0F172A", // Deep Navy
+          foreground: "#FFFFFF",
+          light: "#1E293B",
         },
-        accent: "#FCB64D",
-        muted: "#D3D3D3",
-        border: "#D3D3D3",
+        accent: {
+          DEFAULT: "#FDBA74", // Light Orange
+          foreground: "#0F172A",
+        },
+        muted: {
+          DEFAULT: "#F1F5F9",
+          foreground: "#64748B",
+        },
+        border: "#E2E8F0",
+        surface: {
+          DEFAULT: "#F8FAFC",
+          foreground: "#0F172A",
+        },
       },
       fontFamily: {
         sans: ["var(--font-poppins)", "sans-serif"],

@@ -1,6 +1,7 @@
 import Container from "@/components/layout/Container";
 import { cn } from "@/lib/utils";
 import { type ReactNode } from "react";
+import { FadeIn } from "@/components/ui/motion";
 
 type PageHeroProps = {
   title: string;
@@ -31,7 +32,7 @@ export default function PageHero({
     >
       <span className="absolute inset-0 bg-black/10" aria-hidden="true" />
       <Container className="relative py-16 sm:py-20">
-        <div className={cn("max-w-3xl space-y-6", alignment)}>
+        <FadeIn className={cn("max-w-3xl space-y-6", alignment)}>
           {eyebrow ? (
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">
               {eyebrow}
@@ -44,7 +45,7 @@ export default function PageHero({
             <p className="text-lg leading-relaxed text-white/90">{description}</p>
           ) : null}
           {actions ? <div className="flex flex-wrap gap-3">{actions}</div> : null}
-        </div>
+        </FadeIn>
       </Container>
     </section>
   );

@@ -20,35 +20,37 @@
   * {
     @apply border-border;
   }
+
   *::before,
   *::after {
     box-sizing: border-box;
   }
+
   body {
     @apply flex min-h-screen flex-col bg-background text-foreground;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
-  
+
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 10px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: #f1f1f1;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: #F47920;
     border-radius: 5px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     background: #FCB64D;
   }
@@ -124,8 +126,10 @@
 [class*="container"]:not([class*="header"]) {
   max-width: 1400px;
   margin: 0 auto;
-  padding-left: 112px; /* UChicago desktop padding */
-  padding-right: 112px; /* UChicago desktop padding */
+  padding-left: 112px;
+  /* UChicago desktop padding */
+  padding-right: 112px;
+  /* UChicago desktop padding */
   width: 100%;
 }
 
@@ -137,8 +141,10 @@
   gap: 48px;
   max-width: 1400px;
   margin: 0 auto;
-  padding-left: 112px; /* Match body container */
-  padding-right: 112px; /* Match body container */
+  padding-left: 112px;
+  /* Match body container */
+  padding-right: 112px;
+  /* Match body container */
   width: 100%;
 }
 
@@ -147,12 +153,13 @@
 .cta-section,
 .full-width-section {
   width: 100%;
-  padding: 0; /* No container padding */
+  padding: 0;
+  /* No container padding */
 }
 
 /* But content inside gets container treatment */
-.hero-section > .container-shell,
-.cta-section > .container-shell {
+.hero-section>.container-shell,
+.cta-section>.container-shell {
   max-width: 1400px;
   margin: 0 auto;
   padding-left: 112px;
@@ -165,7 +172,7 @@
   padding: 80px 0;
 }
 
-.section > .container-shell {
+.section>.container-shell {
   max-width: 1400px;
   margin: 0 auto;
   padding-left: 112px;
@@ -174,33 +181,36 @@
 
 /* Responsive breakpoints matching UChicago */
 @media (max-width: 1440px) {
+
   .container-shell,
   .header-shell,
-  .section > .container-shell,
-  .hero-section > .container-shell,
-  .cta-section > .container-shell {
+  .section>.container-shell,
+  .hero-section>.container-shell,
+  .cta-section>.container-shell {
     padding-left: 80px;
     padding-right: 80px;
   }
 }
 
 @media (max-width: 1200px) {
+
   .container-shell,
   .header-shell,
-  .section > .container-shell,
-  .hero-section > .container-shell,
-  .cta-section > .container-shell {
+  .section>.container-shell,
+  .hero-section>.container-shell,
+  .cta-section>.container-shell {
     padding-left: 60px;
     padding-right: 60px;
   }
 }
 
 @media (max-width: 1024px) {
+
   .container-shell,
   .header-shell,
-  .section > .container-shell,
-  .hero-section > .container-shell,
-  .cta-section > .container-shell {
+  .section>.container-shell,
+  .hero-section>.container-shell,
+  .cta-section>.container-shell {
     padding-left: 40px;
     padding-right: 40px;
   }
@@ -211,11 +221,12 @@
 }
 
 @media (max-width: 768px) {
+
   .container-shell,
   .header-shell,
-  .section > .container-shell,
-  .hero-section > .container-shell,
-  .cta-section > .container-shell {
+  .section>.container-shell,
+  .hero-section>.container-shell,
+  .cta-section>.container-shell {
     padding-left: 24px;
     padding-right: 24px;
   }
@@ -230,13 +241,14 @@
 }
 
 @media (max-width: 480px) {
+
   .container-shell,
   .header-shell,
-  .section > .container-shell,
-  .hero-section > .container-shell,
-  .cta-section > .container-shell {
-    padding-left: 16px;
-    padding-right: 16px;
+  .section>.container-shell,
+  .hero-section>.container-shell,
+  .cta-section>.container-shell {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
@@ -342,6 +354,7 @@ a:focus-visible,
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -351,4 +364,3 @@ a:focus-visible,
 .animate-in {
   animation: slide-in-from-right 0.3s ease-out;
 }
-

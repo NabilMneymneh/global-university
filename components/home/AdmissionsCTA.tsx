@@ -5,8 +5,8 @@ import { ArrowRight } from "lucide-react";
 
 export default function AdmissionsCTA() {
   return (
-    <section className="cta-section bg-muted/30">
-      <Container>
+    <section className="cta-section bg-muted/30 pb-20">
+      <Container className="px-5 sm:px-auto">
         <div className="cta-card overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary-dark to-primary text-white p-8 shadow-xl sm:p-12 lg:p-14">
           <div className="max-w-3xl space-y-6">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">

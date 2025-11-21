@@ -59,7 +59,7 @@ export default function Header() {
       >
         <Link href="/" className="logo-link logo-wrapper flex-shrink-0" aria-label="Global University home">
           <Image
-            src="/logo.png"
+            src={isScrolled ? "/logo.png" : "/GU-White-Logo.png"}
             alt="Global University"
             width={160}
             height={48}
@@ -158,9 +158,8 @@ export default function Header() {
                     >
                       {item.name}
                       <ChevronDown
-                        className={`h-4 w-4 transition-transform ${
-                          activeDropdown === item.name ? "rotate-180" : ""
-                        }`}
+                        className={`h-4 w-4 transition-transform ${activeDropdown === item.name ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
                     {activeDropdown === item.name && (

@@ -23,7 +23,7 @@ const applicationSchema = z.object({
   cellPhone: z.string().min(1, "Cell phone is required"),
   placeOfBirth: z.string().min(1, "Place of birth is required"),
   countryOfCitizenship: z.string().min(1, "Country of citizenship is required"),
-  
+
   // Address
   city: z.string().min(1, "City is required"),
   area: z.string().min(1, "Area is required"),
@@ -31,7 +31,7 @@ const applicationSchema = z.object({
   building: z.string().optional(),
   floor: z.string().optional(),
   landline: z.string().optional(),
-  
+
   // Academic Information
   faculty: z.string().min(1, "Faculty is required"),
   major: z.string().min(1, "Major is required"),
@@ -47,7 +47,7 @@ type ApplicationFormData = z.infer<typeof applicationSchema>;
 export default function ApplyPage() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
@@ -57,15 +57,19 @@ export default function ApplyPage() {
     resolver: zodResolver(applicationSchema),
   });
 
+
   const selectedFaculty = watch("faculty");
 
   const onSubmit = async (data: ApplicationFormData) => {
     setLoading(true);
     try {
-      // TODO: Submit to Firebase or API
-      console.log("Application data:", data);
+      // In a real application, you would send this data to your backend
+      // await submitApplication(data);
+
+      // For now, we'll just simulate a successful submission
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
       setSubmitted(true);
+      alert("Application submitted successfully!");
     } catch (error) {
       console.error("Error submitting application:", error);
       alert("There was an error submitting your application. Please try again.");

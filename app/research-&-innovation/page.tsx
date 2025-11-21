@@ -1,7 +1,9 @@
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Container from "@/components/layout/Container";
+import PageHero from "@/components/layout/PageHero";
+import { FadeIn } from "@/components/ui/motion";
 
 export const metadata: Metadata = {
   title: "Research & Innovation | Global University",
@@ -12,64 +14,59 @@ export const metadata: Metadata = {
   },
 };
 
-const researchAreas = [
-  {
-    title: "Medical Research",
-    description: "Advancing healthcare through cutting-edge medical research and clinical studies.",
-  },
-  {
-    title: "Technology Innovation",
-    description: "Developing innovative solutions for the digital age.",
-  },
-  {
-    title: "Environmental Studies",
-    description: "Addressing global environmental challenges through research.",
-  },
-  {
-    title: "Social Sciences",
-    description: "Understanding society and human behavior through rigorous research.",
-  },
-];
-
 export default function ResearchPage() {
   return (
     <>
       <Header />
       <main>
-        <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-16">
-          <div className="container-shell">
-            <h1 className="text-4xl font-bold sm:text-5xl">Research & Innovation</h1>
-            <p className="mt-4 text-lg text-gray-100">
-              Advancing knowledge and driving innovation
-            </p>
-          </div>
-        </section>
+        <PageHero
+          title="Research & Innovation"
+          description="Advancing knowledge for a better world"
+          eyebrow="Discovery"
+        />
 
         <section className="py-16">
-          <div className="container-shell">
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-4">Research Areas</h2>
-              <p className="text-lg text-muted-foreground">
-                Global University is committed to advancing knowledge through innovative research 
-                across multiple disciplines.
-              </p>
-            </div>
+          <Container>
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+              <FadeIn>
+                <h2 className="text-3xl font-bold mb-6">Our Research Mission</h2>
+                <div className="space-y-4 text-lg text-muted-foreground">
+                  <p>
+                    At Global University, we believe that research is a vital part of our academic mission.
+                    We encourage our faculty and students to engage in research that contributes to the advancement of knowledge and the betterment of society.
+                  </p>
+                  <p>
+                    Our research initiatives focus on biblical studies, theology, ministry, and education,
+                    aiming to provide practical solutions to real-world challenges faced by the church and the community.
+                  </p>
+                </div>
+              </FadeIn>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {researchAreas.map((area, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">{area.title}</CardTitle>
-                    <CardDescription>{area.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              ))}
+              <div className="relative overflow-hidden rounded-3xl bg-muted/50 p-8">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+                <h3 className="relative text-2xl font-bold mb-6">Research Areas</h3>
+                <ul className="relative space-y-4">
+                  {[
+                    "Biblical Archaeology and History",
+                    "Theological Ethics in Modern Society",
+                    "Cross-Cultural Ministry Strategies",
+                    "Educational Technology in Theology",
+                    "Mental Health and Pastoral Care"
+                  ].map((area, index) => (
+                    <li key={index} className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold">
+                        {index + 1}
+                      </span>
+                      <span className="font-medium">{area}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
+          </Container>
         </section>
       </main>
       <Footer />
     </>
   );
 }
-

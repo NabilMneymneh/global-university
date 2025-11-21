@@ -5,6 +5,8 @@ import ValuePropositions from "@/components/home/ValuePropositions";
 import Faculties from "@/components/home/Faculties";
 import QuickActions from "@/components/home/QuickActions";
 import FeaturedPrograms from "@/components/home/FeaturedPrograms";
+import StudentLife from "@/components/home/StudentLife";
+import Scholarship from "@/components/home/Scholarship";
 import NewsEvents from "@/components/home/NewsEvents";
 import Campuses from "@/components/home/Campuses";
 import SuccessStories from "@/components/home/SuccessStories";
@@ -30,6 +32,8 @@ export default function HomePage() {
         <QuickActions />
         <Faculties />
         <FeaturedPrograms />
+        <Scholarship />
+        <StudentLife />
         <NewsEvents />
         <Campuses />
         <SuccessStories />

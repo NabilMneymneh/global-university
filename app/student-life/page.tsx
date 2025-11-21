@@ -5,6 +5,7 @@ import Container from "@/components/layout/Container";
 import PageHero from "@/components/layout/PageHero";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, BookOpen, Music, Camera, Heart } from "lucide-react";
+import { FadeIn, StaggerContainer, ScaleIn } from "@/components/ui/motion";
 
 export const metadata: Metadata = {
   title: "Student Life | Global University",
@@ -56,69 +57,75 @@ export default function StudentLifePage() {
 
         <section className="py-16">
           <Container>
-            <div className="mb-12 space-y-4 text-center md:text-left">
+            <FadeIn className="mb-12 space-y-4 text-center md:text-left">
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
                 Activities
               </p>
               <h2 className="text-3xl font-bold">Campus Activities</h2>
               <p className="text-lg text-muted-foreground max-w-2xl">
-                At Global University, student life extends beyond the classroom. Join clubs, 
+                At Global University, student life extends beyond the classroom. Join clubs,
                 participate in events, and build lasting friendships.
               </p>
-            </div>
+            </FadeIn>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
+            <StaggerContainer className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
               {clubs.map((club, index) => {
                 const Icon = club.icon;
                 return (
-                  <Card
+                  <ScaleIn
                     key={index}
-                    className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl"
+                    delay={index * 0.1}
                   >
-                    <CardHeader>
-                      <div className="mb-4 inline-flex rounded-full bg-primary/10 p-3 text-primary">
-                        <Icon className="h-8 w-8" />
-                      </div>
-                      <CardTitle>{club.name}</CardTitle>
-                      <CardDescription>{club.description}</CardDescription>
-                    </CardHeader>
-                  </Card>
+                    <Card className="h-full rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
+                      <CardHeader>
+                        <div className="mb-4 inline-flex rounded-full bg-primary/10 p-3 text-primary">
+                          <Icon className="h-8 w-8" />
+                        </div>
+                        <CardTitle>{club.name}</CardTitle>
+                        <CardDescription>{club.description}</CardDescription>
+                      </CardHeader>
+                    </Card>
+                  </ScaleIn>
                 );
               })}
-            </div>
+            </StaggerContainer>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <Card className="rounded-2xl border border-border bg-background shadow-sm">
-                <CardHeader>
-                  <CardTitle>Student Services</CardTitle>
-                  <CardDescription>Support for your success</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm text-foreground/80">
-                    <li>• Academic advising</li>
-                    <li>• Career counseling</li>
-                    <li>• Health services</li>
-                    <li>• Housing assistance</li>
-                    <li>• Disability support</li>
-                  </ul>
-                </CardContent>
-              </Card>
+              <FadeIn delay={0.2}>
+                <Card className="h-full rounded-2xl border border-border bg-background shadow-sm">
+                  <CardHeader>
+                    <CardTitle>Student Services</CardTitle>
+                    <CardDescription>Support for your success</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm text-foreground/80">
+                      <li>• Academic advising</li>
+                      <li>• Career counseling</li>
+                      <li>• Health services</li>
+                      <li>• Housing assistance</li>
+                      <li>• Disability support</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </FadeIn>
 
-              <Card className="rounded-2xl border border-border bg-background shadow-sm">
-                <CardHeader>
-                  <CardTitle>Campus Facilities</CardTitle>
-                  <CardDescription>Modern amenities for students</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm text-foreground/80">
-                    <li>• Library and study spaces</li>
-                    <li>• Sports facilities</li>
-                    <li>• Dining services</li>
-                    <li>• Student lounges</li>
-                    <li>• Computer labs</li>
-                  </ul>
-                </CardContent>
-              </Card>
+              <FadeIn delay={0.3}>
+                <Card className="h-full rounded-2xl border border-border bg-background shadow-sm">
+                  <CardHeader>
+                    <CardTitle>Campus Facilities</CardTitle>
+                    <CardDescription>Modern amenities for students</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm text-foreground/80">
+                      <li>• Library and study spaces</li>
+                      <li>• Sports facilities</li>
+                      <li>• Dining services</li>
+                      <li>• Student lounges</li>
+                      <li>• Computer labs</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </FadeIn>
             </div>
           </Container>
         </section>
@@ -127,4 +134,3 @@ export default function StudentLifePage() {
     </>
   );
 }
-

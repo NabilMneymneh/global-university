@@ -6,6 +6,7 @@ import PageHero from "@/components/layout/PageHero";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { FadeIn, StaggerContainer, ScaleIn } from "@/components/ui/motion";
 
 export const metadata: Metadata = {
   title: "Academics | Global University",
@@ -50,77 +51,102 @@ export default function AcademicsPage() {
           eyebrow="Academic Experience"
         />
 
-        <section className="py-16">
+        <section className="py-16 bg-muted/30">
           <Container>
-            <div className="mb-12 space-y-4 text-center md:text-left">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
-                Faculties
-              </p>
-              <h2 className="text-3xl font-bold">Our Faculties</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl">
-                Global University offers a diverse range of academic programs across multiple faculties, 
-                each committed to excellence in teaching and research.
-              </p>
-            </div>
+            <FadeIn>
+              <div className="text-center max-w-3xl mx-auto mb-16">
+                <h2 className="text-3xl font-bold mb-4">Our Schools</h2>
+                <p className="text-lg text-muted-foreground">
+                  Global University is comprised of five distinct schools, each dedicated to equipping students for ministry and service.
+                </p>
+              </div>
+            </FadeIn>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {faculties.map((faculty, index) => (
-                <Card
-                  key={index}
-                  className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl"
-                >
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "School for Evangelism and Discipleship",
+                  description: "Focuses on evangelism and discipleship training for effective ministry.",
+                  icon: "🌍",
+                },
+                {
+                  title: "Berean School of the Bible",
+                  description: "Provides adult continuing education for ministerial training and personal enrichment.",
+                  icon: "📖",
+                },
+                {
+                  title: "School for Ministry Development",
+                  description: "Equips leaders with practical skills for ministry and church leadership.",
+                  icon: "⛪",
+                },
+                {
+                  title: "Undergraduate School of Bible and Theology",
+                  description: "Offers associate and bachelor degrees in Bible, theology, and ministry.",
+                  icon: "🎓",
+                },
+                {
+                  title: "Graduate School of Theology",
+                  description: "Provides advanced theological education for ministry leaders and scholars.",
+                  icon: "📜",
+                },
+              ].map((school, index) => (
+                <ScaleIn key={school.title} delay={index * 0.1}>
+                  <Card className="h-full hover:shadow-lg transition-shadow duration-300">
+                    <CardHeader>
+                      <div className="text-4xl mb-4">{school.icon}</div>
+                      <CardTitle className="text-xl">{school.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">{school.description}</p>
+                    </CardContent>
+                  </Card>
+                </ScaleIn>
+              ))}
+            </StaggerContainer>
+
+            <StaggerContainer className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+              <FadeIn delay={0.2}>
+                <Card className="h-full rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
                   <CardHeader>
-                    <CardTitle className="text-2xl">{faculty.name}</CardTitle>
-                    <CardDescription className="text-base leading-relaxed">
-                      {faculty.description}
-                    </CardDescription>
+                    <CardTitle>Academic Calendar</CardTitle>
+                    <CardDescription>Important dates and deadlines</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Button asChild variant="outline" className="w-full">
-                      <Link href={faculty.href}>Explore Faculty</Link>
+                      <Link href="/academic-calendar">View Calendar</Link>
                     </Button>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
+              </FadeIn>
 
-            <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-              <Card className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
-                <CardHeader>
-                  <CardTitle>Academic Calendar</CardTitle>
-                  <CardDescription>Important dates and deadlines</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/academic-calendar">View Calendar</Link>
-                  </Button>
-                </CardContent>
-              </Card>
+              <FadeIn delay={0.3}>
+                <Card className="h-full rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
+                  <CardHeader>
+                    <CardTitle>Academic Catalogue</CardTitle>
+                    <CardDescription>Comprehensive program guide</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button asChild variant="outline" className="w-full">
+                      <Link href="/academic-catalogue">View Catalogue</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </FadeIn>
 
-              <Card className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
-                <CardHeader>
-                  <CardTitle>Academic Catalogue</CardTitle>
-                  <CardDescription>Comprehensive program guide</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/academic-catalogue">View Catalogue</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
-                <CardHeader>
-                  <CardTitle>Program Search</CardTitle>
-                  <CardDescription>Find the right program for you</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/program-search-tool">Search Programs</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+              <FadeIn delay={0.4}>
+                <Card className="h-full rounded-2xl border border-border bg-background shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-2xl">
+                  <CardHeader>
+                    <CardTitle>Program Search</CardTitle>
+                    <CardDescription>Find the right program for you</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button asChild variant="outline" className="w-full">
+                      <Link href="/program-search-tool">Search Programs</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </FadeIn>
+            </StaggerContainer>
           </Container>
         </section>
       </main>

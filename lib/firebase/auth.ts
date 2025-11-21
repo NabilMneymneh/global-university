@@ -4,7 +4,9 @@ import {
   signOut,
   User,
   onAuthStateChanged,
+  getAuth,
 } from "firebase/auth";
+import { initializeApp, getApp, deleteApp } from "firebase/app";
 import { auth } from "./config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./config";
@@ -70,6 +72,44 @@ export async function signUp(email: string, password: string, role: UserRole = "
   }
 }
 
+export async function createUserWithoutSignIn(email: string, password: string, role: UserRole = "viewer") {
+  let secondaryApp;
+  try {
+    // Get config from the default app
+    const config = getApp().options;
+    // Create a unique name for the secondary app to avoid conflicts
+    const appName = `secondary-app-${Date.now()}`;
+    secondaryApp = initializeApp(config, appName);
+    const secondaryAuth = getAuth(secondaryApp);
+
+    const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+    const user = userCredential.user;
+
+    // Create user document in Firestore (using the PRIMARY app's db)
+    const dbInstance = getDbInstance();
+    const userData: Omit<UserData, "uid"> = {
+      email: user.email!,
+      role,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    await setDoc(doc(dbInstance, "users", user.uid), userData);
+
+    // Sign out from secondary app just in case
+    await signOut(secondaryAuth);
+
+    return user;
+  } catch (error: any) {
+    const errorMessage = error?.message || "Failed to create user";
+    throw new Error(errorMessage);
+  } finally {
+    if (secondaryApp) {
+      await deleteApp(secondaryApp);
+    }
+  }
+}
+
 export async function logOut() {
   try {
     const authInstance = getAuthInstance();
@@ -86,8 +126,8 @@ export async function getUserData(uid: string): Promise<UserData | null> {
     const userDoc = await getDoc(doc(dbInstance, "users", uid));
     if (userDoc.exists()) {
       const data = userDoc.data();
-      return { 
-        uid, 
+      return {
+        uid,
         email: data.email || "",
         role: data.role || "viewer",
         displayName: data.displayName,

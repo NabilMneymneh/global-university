@@ -5,7 +5,7 @@ import { getAllUsers, updateUserRole, deleteUser } from "@/lib/firebase/users";
 import { UserData, UserRole } from "@/lib/firebase/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { signUp } from "@/lib/firebase/auth";
+import { signUp, createUserWithoutSignIn } from "@/lib/firebase/auth";
 import { LoadingSpinner, LoadingSkeleton } from "@/components/ui/loading-spinner";
 import { toast } from "@/components/ui/toast";
 
@@ -43,7 +43,7 @@ export default function UsersPage() {
       return;
     }
     try {
-      await signUp(newUserEmail, newUserPassword, newUserRole);
+      await createUserWithoutSignIn(newUserEmail, newUserPassword, newUserRole);
       toast("User created successfully!", "success");
       setNewUserEmail("");
       setNewUserPassword("");
