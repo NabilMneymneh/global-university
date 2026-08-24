@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import TrackedLink from "@/components/analytics/TrackedLink";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -118,7 +119,13 @@ export default function Header() {
 
           <div className="nav-actions flex items-center gap-3 border-l border-border/60 pl-6">
             <Button variant="outline" size="sm" className="px-5 secondary-button" asChild>
-              <Link href="/admissions/apply">Apply</Link>
+              <TrackedLink
+                href="/admissions/apply"
+                eventName="InitiateCheckout"
+                eventParameters={{ content_name: "header_apply_cta", content_category: "admissions" }}
+              >
+                Apply
+              </TrackedLink>
             </Button>
             <Button size="sm" className="px-5" asChild>
               <Link href="/admissions">Info</Link>
@@ -204,7 +211,13 @@ export default function Header() {
             </div>
             <div className="pt-4 border-t border-border flex gap-2">
               <Button variant="outline" size="sm" className="flex-1" asChild>
-                <Link href="/admissions/apply">Apply</Link>
+                <TrackedLink
+                  href="/admissions/apply"
+                  eventName="InitiateCheckout"
+                  eventParameters={{ content_name: "header_apply_cta", content_category: "admissions" }}
+                >
+                  Apply
+                </TrackedLink>
               </Button>
               <Button size="sm" className="flex-1" asChild>
                 <Link href="/admissions">Info</Link>

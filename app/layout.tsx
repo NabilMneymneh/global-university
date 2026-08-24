@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ToastProvider } from "@/components/providers/ToastProvider";
+import MetaPixel from "@/components/analytics/MetaPixel";
+import MetaPageView from "@/components/analytics/MetaPageView";
 
 export const metadata: Metadata = {
   title: "Global University | Leading Higher Education in Lebanon",
@@ -62,6 +64,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         {children}
+        <MetaPixel />
+        <MetaPageView />
         <ToastProvider />
       </body>
     </html>
