@@ -2,6 +2,7 @@ import Container from "@/components/layout/Container";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import TrackedLink from "@/components/analytics/TrackedLink";
 
 export default function AdmissionsCTA() {
   return (
@@ -21,10 +22,14 @@ export default function AdmissionsCTA() {
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button asChild size="lg" className="cta-button px-8 py-6 text-lg">
-                <Link href="/admissions">
+                <TrackedLink
+                  href="/admissions"
+                  eventName="ViewContent"
+                  eventParameters={{ content_name: "homepage_admissions_banner", content_category: "admissions" }}
+                >
                   Apply Now
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+                </TrackedLink>
               </Button>
               <Button
                 asChild

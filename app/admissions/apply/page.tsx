@@ -12,6 +12,7 @@ import { useForm, UseFormRegisterReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { cn } from "@/lib/utils";
+import MetaEvent from "@/components/analytics/MetaEvent";
 
 const applicationSchema = z.object({
   // Personal Information
@@ -175,6 +176,10 @@ export default function ApplyPage() {
 
   return (
     <>
+      <MetaEvent
+        eventName="ViewContent"
+        parameters={{ content_name: "application_form", content_category: "admissions" }}
+      />
       <Header />
       <main>
         <PageHero

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 import { FadeIn, StaggerContainer } from "@/components/ui/motion";
+import TrackedLink from "@/components/analytics/TrackedLink";
 
 export default function Hero() {
   return (
@@ -30,13 +31,19 @@ export default function Hero() {
 
             <FadeIn delay={0.3}>
               <p className="text-lg text-gray-300 sm:text-xl lg:text-2xl">
-                Transforming lives through a global network of Spirit-empowered education and training since 1992.
+                Accredited undergraduate and graduate programs in Health Sciences, Administrative Sciences, and Literature & Humanities — taught in English and Arabic in the heart of Beirut.
               </p>
             </FadeIn>
 
             <FadeIn delay={0.4} className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="text-base px-8 py-6 h-auto">
-                <Link href="/admissions">Apply Now</Link>
+                <TrackedLink
+                  href="/admissions"
+                  eventName="ViewContent"
+                  eventParameters={{ content_name: "homepage_admissions_cta", content_category: "admissions" }}
+                >
+                  Apply Now
+                </TrackedLink>
               </Button>
               <Button asChild size="lg" variant="outline" className="text-base px-8 py-6 h-auto border-white/20 bg-transparent text-white hover:bg-white/10">
                 <Link href="/about">Learn More</Link>

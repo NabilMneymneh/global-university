@@ -160,6 +160,15 @@ Set the following environment variables in Hostinger:
 - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
 - `NEXT_PUBLIC_FIREBASE_APP_ID`
 - `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_META_PIXEL_ID`
+
+### Meta Pixel
+
+The website uses the existing Global University Meta dataset/Pixel. The verified Pixel ID is `877982820870158`; it must be present as `NEXT_PUBLIC_META_PIXEL_ID` during the production build and in the Hostinger environment. Do not create a second Pixel for this website.
+
+The base Pixel is mounted in `app/layout.tsx`. The implementation records `PageView` globally, `ViewContent` on admissions and application pages, and `InitiateCheckout` when a visitor selects a primary Apply CTA. It intentionally does not fire `Lead` or `CompleteRegistration` from the current application form because that form still simulates a successful submission in client-side code rather than writing to a confirmed admissions backend. Wire `Lead` to the real backend success response before optimizing campaigns for Leads.
+
+For Hostinger Node.js hosting, set `NEXT_PUBLIC_META_PIXEL_ID=877982820870158` before running `npm run build`, then restart the application. For a static export, set the variable in the build environment before generating the `out` directory. Verify the live site in Meta Events Manager Test events and confirm that the Global University dataset reports website activity.
 
 ## Project Structure
 

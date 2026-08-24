@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import { FadeIn, StaggerContainer, ScaleIn } from "@/components/ui/motion";
+import MetaEvent from "@/components/analytics/MetaEvent";
+import TrackedLink from "@/components/analytics/TrackedLink";
 
 export const metadata: Metadata = {
   title: "Admissions | Global University",
@@ -53,6 +55,10 @@ const requirements = [
 export default function AdmissionsPage() {
   return (
     <>
+      <MetaEvent
+        eventName="ViewContent"
+        parameters={{ content_name: "admissions", content_category: "admissions" }}
+      />
       <Header />
       <main>
         <PageHero
@@ -61,7 +67,13 @@ export default function AdmissionsPage() {
           eyebrow="Join Global"
           actions={
             <Button asChild variant="secondary">
-              <Link href="/admissions/apply">Apply Now</Link>
+              <TrackedLink
+                href="/admissions/apply"
+                eventName="InitiateCheckout"
+                eventParameters={{ content_name: "admissions_apply_cta", content_category: "admissions" }}
+              >
+                Apply Now
+              </TrackedLink>
             </Button>
           }
         />
@@ -73,16 +85,21 @@ export default function AdmissionsPage() {
                 <h2 className="text-3xl font-bold mb-6">Become a Student</h2>
                 <div className="space-y-4 text-lg text-muted-foreground">
                   <p>
-                    Global University provides advanced, in-depth, specialized study of the Bible, Christian education, and church ministry.
-                    You develop skills to become a lifelong learner and church leader, both in individual research and practical applications.
+                    Global University offers accredited undergraduate and graduate programs in Health Sciences, Administrative Sciences, and Literature & Humanities. Programs are taught in English and Arabic, with practical learning and guidance from program selection through application.
                   </p>
                   <p>
-                    We are dedicated to advancing the education of our students and the strength of their faith, through learning, teaching, ministry, and biblical study.
+                    Our admissions team helps prospective students understand program options, requirements, placement-test preparation, financial-aid pathways, and the next step toward enrollment.
                   </p>
                 </div>
                 <div className="mt-8">
-                  <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
-                    Apply Now
+                  <Button size="lg" className="bg-primary text-white hover:bg-primary/90" asChild>
+                    <TrackedLink
+                      href="/admissions/apply"
+                      eventName="InitiateCheckout"
+                      eventParameters={{ content_name: "admissions_apply_cta", content_category: "admissions" }}
+                    >
+                      Apply Now
+                    </TrackedLink>
                   </Button>
                 </div>
               </FadeIn>
@@ -98,7 +115,7 @@ export default function AdmissionsPage() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">
-                        View our graduate and undergraduate catalogs to see precisely the courses, tracks, and credits you need to earn your degree.
+                        Explore the faculties, departments, and degree options that match your academic interests and career goals.
                       </p>
                     </CardContent>
                   </Card>
@@ -114,7 +131,7 @@ export default function AdmissionsPage() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">
-                        Check the specific admission requirements for your chosen school: School for Evangelism and Discipleship, Berean School of the Bible, Undergraduate, or Graduate School.
+                        Review the required documents, eligibility criteria, placement-test topics, and any program-specific requirements before you apply.
                       </p>
                     </CardContent>
                   </Card>
@@ -130,7 +147,7 @@ export default function AdmissionsPage() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">
-                        Complete the online application form and submit necessary documents. Tuition per credit does not include the cost of required course materials.
+                        Complete the online application form with accurate personal, academic, and contact information so the admissions team can guide your next step.
                       </p>
                     </CardContent>
                   </Card>
@@ -164,7 +181,13 @@ export default function AdmissionsPage() {
                 size="lg"
                 className="bg-primary px-8 py-6 text-lg text-white shadow-lg transition hover:bg-primary/90 hover:shadow-xl"
               >
-                <Link href="/admissions/apply">Start Your Application</Link>
+                <TrackedLink
+                  href="/admissions/apply"
+                  eventName="InitiateCheckout"
+                  eventParameters={{ content_name: "start_application_cta", content_category: "admissions" }}
+                >
+                  Start Your Application
+                </TrackedLink>
               </Button>
             </FadeIn>
           </Container>
